@@ -14,4 +14,8 @@ public class Display {
         Display.println(text);
         return sc.nextInt();
     }
+    public static String prompt(String text){
+        Display.println(text);
+        return sc.nextLine();
+    }
 }

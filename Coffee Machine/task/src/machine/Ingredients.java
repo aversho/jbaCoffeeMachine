@@ -5,10 +5,18 @@ public class Ingredients {
     private int water;
     private int beans;
 
-    public Ingredients(int milk, int water, int beans) {
-        this.milk = milk;
-        this.water = water;
-        this.beans = beans;
+    public Ingredients(){
+        this(0,0,0);
+    }
+
+    public Ingredients(int water, int beans) {
+        this(water, beans, 0);
+    }
+
+    public Ingredients(int water, int beans, int milk) {
+        this.milk = Math.max(milk, 0);
+        this.water = Math.max(water, 0);
+        this.beans = Math.max(beans, 0);
     }
 
     public int canBeCooked(Drink drink) {
@@ -24,4 +32,21 @@ public class Ingredients {
         this.water -= ingredients.water;
     }
 
+    public void add(Ingredients ingredients) {
+        this.beans += ingredients.beans;
+        this.milk += ingredients.milk;
+        this.water += ingredients.water;
+    }
+
+    public int getMilk() {
+        return milk;
+    }
+
+    public int getWater() {
+        return water;
+    }
+
+    public int getBeans() {
+        return beans;
+    }
 }

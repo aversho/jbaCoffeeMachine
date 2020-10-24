@@ -5,21 +5,56 @@ public class CoffeeMachine {
 
     public static void main(String[] args) {
         CoffeeMachine coffeeMachine = new CoffeeMachine();
-
-        int cups = Display.promptInt("Write how many cups of coffee you will need: ");
-        coffeeMachine.makeCoffee(cups);
+        coffeeMachine.printLog();
+        String action = Display.prompt("Write action (buy, fill, take):");
+        switch (action){
+            case "buy" :
+                coffeeMachine.buy();
+                break;
+            case "fill" :
+                coffeeMachine.fill();
+                break;
+            case "take" :
+                coffeeMachine.take();
+                break;
+            default:
+                Display.println("Incorrect input.");
+                break;
+        }
+        Display.println("");
+        coffeeMachine.printLog();
     }
 
     public CoffeeMachine() {
-        int waterHas = Display.promptInt("Write how many ml of water the coffee machine has: ");
-        int milkHas = Display.promptInt("Write how many ml of milk the coffee machine has: ");
-        int beansHas = Display.promptInt("Write how many grams of coffee beans the coffee machine has: ");
-        this.controller = new Controller(new Ingredients(milkHas, waterHas, beansHas));
+        this.controller = new Controller();
+        this.controller.fillResources(400, 120, 540, 9, 550);
+    }
+
+    private void printLog() {
+        controller.printLog();
+    }
+
+    private void buy() {
+        controller.selectDrink();
+        controller.makeDrink(1);
+    }
+
+    private void fill(){
+        int water = Display.promptInt("Write how many ml of water do you want to add: ");
+        int milk = Display.promptInt("Write how many ml of milk do you want to add: ");
+        int beans = Display.promptInt("Write how many grams of coffee beans do you want to add: ");
+        int cups = Display.promptInt("Write how many disposable cups of coffee do you want to add: ");
+        controller.fillResources(water, beans, milk, cups, 0);
+
+    }
+
+    private void take(){
+        Display.println("I gave you $" + controller.takeMoney());
     }
 
     private void makeCoffee(int cups) {
-        controller.selectDrink(new Coffee());
-        int availableCups = controller.make(cups);
+        controller.setDrink(new Espresso());
+        int availableCups = controller.makeDrink(cups);
         if (availableCups >= 0) {
             Display.println(availableCups > 0 ?
                     String.format("Yes, I can make that amount of coffee (and even %d more than that)", availableCups) :

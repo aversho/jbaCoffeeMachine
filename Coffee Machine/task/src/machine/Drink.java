@@ -1,5 +1,13 @@
 package machine;
 
-public interface Drink {
-    Ingredients getIngredients();
+public abstract class Drink {
+    Ingredients ingredients;
+    String description = "unnamed drink";
+    Ingredients getIngredients(){
+        return ingredients;
+    }
+    abstract double getCost();
+    String getDescription(){
+        return description;
+    }
 }
