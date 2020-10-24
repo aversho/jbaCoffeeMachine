@@ -16,25 +16,30 @@ public class Controller {
         this.drink = drink;
     }
 
-    public void selectDrink(){
+    public boolean selectDrink(){
         drink = null;
-        while (drink == null) {
-            int type = Display.promptInt("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
+        boolean returnToMenu = false;
+        while (drink == null && !returnToMenu) {
+            String type = Display.prompt("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main returnToMenu:");
             switch (type) {
-                case 1:
+                case "1":
                     drink = new Espresso();
                     break;
-                case 2:
+                case "2":
                     drink = new Latte();
                     break;
-                case 3:
+                case "3":
                     drink = new Cappuccino();
+                    break;
+                case "back":
+                    returnToMenu = true;
                     break;
                 default:
                     Display.println("Incorrect input. Try again.");
                     break;
             }
         }
+        return !returnToMenu;
     }
 
     public int availableCupsOfDrink(){
@@ -42,6 +47,9 @@ public class Controller {
     }
 
     public int makeDrink(int askCups){
+        if(drink == null){
+            return 0;
+        }
         int availableCups = Math.min(availableCupsOfDrink(), cups);
         if(askCups <= 0){
             return availableCups;

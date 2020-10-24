@@ -5,24 +5,30 @@ public class CoffeeMachine {
 
     public static void main(String[] args) {
         CoffeeMachine coffeeMachine = new CoffeeMachine();
-        coffeeMachine.printLog();
-        String action = Display.prompt("Write action (buy, fill, take):");
-        switch (action){
-            case "buy" :
-                coffeeMachine.buy();
-                break;
-            case "fill" :
-                coffeeMachine.fill();
-                break;
-            case "take" :
-                coffeeMachine.take();
-                break;
-            default:
-                Display.println("Incorrect input.");
-                break;
+        while (true) {
+            String action = Display.prompt("Write action (buy, fill, take, remaining, exit):");
+            switch (action) {
+                case "buy":
+                    coffeeMachine.buy();
+                    break;
+                case "fill":
+                    coffeeMachine.fill();
+                    break;
+                case "take":
+                    coffeeMachine.take();
+                    break;
+                case "remaining":
+                    coffeeMachine.printLog();
+                    break;
+                case "exit":
+                    System.exit(0);
+                    break;
+                default:
+                    Display.println("Incorrect input.");
+                    break;
+            }
+            Display.println("");
         }
-        Display.println("");
-        coffeeMachine.printLog();
     }
 
     public CoffeeMachine() {
@@ -35,8 +41,9 @@ public class CoffeeMachine {
     }
 
     private void buy() {
-        controller.selectDrink();
-        controller.makeDrink(1);
+        if(controller.selectDrink()) {
+            controller.makeDrink(1);
+        }
     }
 
     private void fill(){
